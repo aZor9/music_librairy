@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md col-lg-4">
+            {{ form_row (form.name) }}
+        </div>
+        <div class="col">
+            {{ form_row (form.thumbnailUrl) }}
+        </div>
+    </div>
+    {{ form_widget(form) }} {# affiche tous les champs non affiché #}
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

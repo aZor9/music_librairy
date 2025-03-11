@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Track index{% endblock %}
+
+{% block body %}
+    <h1>Track index</h1>
+
+    <div class="table-responsive table border rounded">
+        <table class="table table-hover table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody class="track-list">
+            {% for track in tracks %}
+                <tr>
+                    <td class="align-middle">{{ track.id }}</td>
+                    <td class="align-middle">{{ track.title }}</td>
+                    <td class="align-middle">{{ track.readableDuration }}</td>
+                    <td>
+                        <a href="{{ path('app_track_show', {'id': track.id}) }}" class="btn btn-primary">show</a>
+                        <a href="{{ path('app_track_edit', {'id': track.id}) }}" class="btn btn-warning">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_granted('ROLE_USER')%}
+        <a href="{{ path('app_track_new') }}" class="btn btn-success">Create new</a>
+    {% endif %}
+
+{% endblock %}

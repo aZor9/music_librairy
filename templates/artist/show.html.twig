@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artist{% endblock %}
+
+{% block body %}
+    {# <h1>Artist</h1> #}
+
+
+    <div class="container mt-4">
+
+
+        <div class="row mb-4">
+            <div class="col-auto">
+                <img 
+                    class="img-fluid rounded thumbnail" 
+                    src="{{ artist.thumbnailUrl }}" 
+                    alt="Artist thumbnail"
+                    style="height: 10rem; width: 10rem;"
+                >
+            </div>
+
+            <div class="col">
+                <h1>{{ artist.name }}</h1>
+
+            </div>
+        </div>
+
+
+
+
+<h2>Releases</h2>
+        <div class="row gy-2 mb-4">
+            {% for release in artist.releases %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="card mx-auto mx-sm-0" style="max-width: 16rem">
+                        <img src="{{ release.thumbnailUrl }}" alt="release thumbnail" class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="h5 card-title mb-0">{{ release.title }}</h3>
+                            {# {{ release.releaseAdt ? release.releaseAdt|date('d/m/Y') : '' }}  #}
+                            {{ release.releasedAt | date('d/m/Y') }}
+                            {# <span class="badge rounded-pill text-bg-danger">{{ release.typeLabel }}</span> #}
+                            <a href="{{ path('app_release_show', {'id': release.id}) }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col">
+                    <div class="alert alert-info">Il n'y a pas encore de release.</div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+
+    <a href="{{ path('app_artist_index') }}" class="btn btn-secondary mb-1" >back to list</a>
+
+
+
+    {% if is_granted('ROLE_USER')%}
+        <a href="{{ path('app_artist_edit', {'id': artist.id}) }}" class="btn btn-warning mb-1">edit</a>
+
+    {{ include('artist/_delete_form.html.twig') }}
+    {% endif %}
+
+    
+{% endblock %}
+

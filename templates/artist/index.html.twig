@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% import "component.html.twig" as component %}
+
+{% block title %}Artist index{% endblock %}
+
+{% block body %}
+    <h1>Artist index</h1>
+
+    <div class="row">
+        {% for artist in artists %}
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 text-decoration-none"> {# a href="{{path('app_artist_show', {id: artist.id}) }}" #}
+                {{ component.card(
+                    artist.name, 
+                    null, 
+                    artist.thumbnailUrl, 
+                    artist.name ~ ' profile picture', 
+                    path('app_artist_show', {id: artist.id}) 
+                ) }}
+                {# <div class="card">
+                    <img src="{{ artist.thumbnailUrl }}" alt="{{ artist.name }} profile picture" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ artist.name }}</h5> #}
+                        {# <a class="btn btn-primary" href="{{path('app_artist_show', {id: artist.id}) }}">Show</a> #}
+                    {# </div>
+                </div> #}
+            </div>
+        {% endfor %}
+    </div>
+{# 
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2">Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for artist in artists %}
+            <tr> #}
+                {# <td>{{ artist.id }}</td> #}
+                {# <td style="width: 2rem;">
+                    <div class="ratio ratio-1x1" style="width: 2rem;">
+                        <img  class="object-fit-cover rounded" src="{{ artist.thumbnailUrl }}" alt="{{ artist.name }} profile picture">
+                    </div>
+                </td>
+                <td>{{ artist.name }}</td>
+                <td>
+                    <a href="{{ path('app_artist_show', {'id': artist.id}) }}" class="btn btn-link">show</a>
+                    {% if is_granted('ROLE_USER')%}
+                        <a href="{{ path('app_artist_edit', {'id': artist.id}) }}" class="btn btn-link">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table> #}
+
+    {% if is_granted('ROLE_USER')%}
+        <a href="{{ path('app_artist_new') }}" class="btn btn-success  my-3">Create new</a>
+    {% endif %}
+
+    
+{% endblock %}

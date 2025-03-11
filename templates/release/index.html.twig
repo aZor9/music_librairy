@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+{% import "component.html.twig" as component %}
+
+{% block title %}Release index{% endblock %}
+
+{% block body %}
+
+    {% set type_labels = { 
+        1: 'Album',
+        2: 'Single',
+        3: 'EP'
+    } %}
+
+
+    <h1>Release index</h1>
+
+    <div class="row">
+        {% for release in releases %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                {{ component.card(
+                    release.title,
+                    release.artist.name,
+                    release.thumbnailUrl,
+                    release.title ~ ' thumbnail',
+                    path('app_release_show', {id: release.id})
+
+                ) }}
+
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+
+
+{# 
+
+    <div class="table-responsive table border rounded">
+        <table class="table table-hover table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Thumbnail Url</th>
+                    <th>Type</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for release in releases %}
+                <tr>
+                    <td>{{ release.id }}</td>
+                    <td>{{ release.releasedAt ? release.releasedAt|date('Y') : '' }}</td>
+                    <td>{{ release.title }}</td>
+                    <td>{{ release.thumbnailUrl }}</td>
+                    <td>{{ type_labels[release.type] }}</td>
+                    <td>
+                        <a href="{{ path('app_release_show', {'id': release.id}) }}" class="btn btn-primary">show</a>
+                        <a href="{{ path('app_release_edit', {'id': release.id}) }}" class="btn btn-warning">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    
+    </div> #}
+
+    
+    {% if is_granted('ROLE_USER')%}
+        <a href="{{ path('app_release_new') }}" class="btn btn-success">Create new</a>
+    {% endif %}
+
+{% endblock %}
